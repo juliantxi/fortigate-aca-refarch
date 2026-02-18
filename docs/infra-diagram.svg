@@ -1,0 +1,235 @@
+<svg viewBox="0 0 900 1080" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI, Arial, sans-serif">
+
+  <!-- ── Definitions ── -->
+  <defs>
+    <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#555"/>
+    </marker>
+    <marker id="arrowhead-blue" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#1a73e8"/>
+    </marker>
+    <marker id="arrowhead-orange" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#e8820a"/>
+    </marker>
+    <marker id="arrowhead-green" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#2e7d32"/>
+    </marker>
+    <filter id="shadow" x="-5%" y="-5%" width="115%" height="115%">
+      <feDropShadow dx="2" dy="2" stdDeviation="3" flood-color="#00000022"/>
+    </filter>
+  </defs>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- BACKGROUND                                     -->
+  <!-- ══════════════════════════════════════════════ -->
+  <rect width="900" height="1080" fill="#f0f4f8"/>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- TITLE                                          -->
+  <!-- ══════════════════════════════════════════════ -->
+  <text x="450" y="36" text-anchor="middle" font-size="18" font-weight="700" fill="#1a1a2e">Azure Container Apps + Fortinet Gateway</text>
+  <text x="450" y="56" text-anchor="middle" font-size="12" fill="#555">Hub &amp; Spoke Architecture</text>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- INTERNET                                       -->
+  <!-- ══════════════════════════════════════════════ -->
+  <rect x="300" y="72" width="300" height="52" rx="10" fill="#cfd8dc" stroke="#90a4ae" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="450" y="93" text-anchor="middle" font-size="11" font-weight="600" fill="#37474f">🌐  INTERNET</text>
+  <text x="450" y="113" text-anchor="middle" font-size="10" fill="#546e7a">Public traffic (HTTP / HTTPS)</text>
+
+  <!-- Arrow: Internet → Public IP -->
+  <line x1="450" y1="124" x2="450" y2="148" stroke="#555" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- PUBLIC IP + EXTERNAL LB                        -->
+  <!-- ══════════════════════════════════════════════ -->
+  <rect x="290" y="150" width="320" height="56" rx="8" fill="#ffffff" stroke="#1a73e8" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="290" y="150" width="320" height="20" rx="8" fill="#1a73e8"/>
+  <rect x="290" y="162" width="320" height="8" fill="#1a73e8"/>
+  <text x="450" y="164" text-anchor="middle" font-size="10" font-weight="700" fill="#ffffff">PUBLIC IP  +  EXTERNAL LOAD BALANCER</text>
+  <text x="450" y="182" text-anchor="middle" font-size="10" fill="#333">Standard SKU · Static IP · Floating IP enabled</text>
+  <text x="450" y="196" text-anchor="middle" font-size="10" fill="#1a73e8">Port 80 / 443 inbound · Port 50443 mgmt NAT</text>
+
+  <!-- Arrow: Ext LB → FortiGate -->
+  <line x1="450" y1="206" x2="450" y2="236" stroke="#555" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- HUB VNET BOX                                   -->
+  <!-- ══════════════════════════════════════════════ -->
+  <rect x="40" y="240" width="820" height="390" rx="14" fill="#e8f0fe" stroke="#1a73e8" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="40" y="240" width="820" height="28" rx="14" fill="#1a73e8"/>
+  <rect x="40" y="254" width="820" height="14" fill="#1a73e8"/>
+  <text x="64" y="260" font-size="11" font-weight="700" fill="#ffffff">HUB VNET   10.0.0.0/16</text>
+
+  <!-- ── snet-external ── -->
+  <rect x="60" y="278" width="780" height="100" rx="8" fill="#ffffff" stroke="#5c85d6" stroke-width="1.5"/>
+  <text x="76" y="294" font-size="10" font-weight="600" fill="#1a73e8">snet-external  (10.0.1.0/24)  NSG: allow 80, 443, 8443 inbound</text>
+
+  <!-- FGT1 -->
+  <rect x="230" y="302" width="160" height="64" rx="7" fill="#fff3e0" stroke="#e65100" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="310" y="320" text-anchor="middle" font-size="10" font-weight="700" fill="#e65100">🛡  FortiGate 1</text>
+  <text x="310" y="334" text-anchor="middle" font-size="9" fill="#555">Active  |  port1 NIC</text>
+  <text x="310" y="348" text-anchor="middle" font-size="9" fill="#555">10.0.1.5 (DHCP)</text>
+  <text x="310" y="360" text-anchor="middle" font-size="8" fill="#888">VMSS instance 0</text>
+
+  <!-- FGT2 -->
+  <rect x="510" y="302" width="160" height="64" rx="7" fill="#fce4ec" stroke="#c62828" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="590" y="320" text-anchor="middle" font-size="10" font-weight="700" fill="#c62828">🛡  FortiGate 2</text>
+  <text x="590" y="334" text-anchor="middle" font-size="9" fill="#555">Passive  |  port1 NIC</text>
+  <text x="590" y="348" text-anchor="middle" font-size="9" fill="#555">10.0.1.6 (DHCP)</text>
+  <text x="590" y="360" text-anchor="middle" font-size="8" fill="#888">VMSS instance 1</text>
+
+  <!-- HA heartbeat line between FGT1 & FGT2 -->
+  <line x1="390" y1="334" x2="510" y2="334" stroke="#c62828" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <text x="450" y="329" text-anchor="middle" font-size="8" fill="#c62828">HA heartbeat (UDP 703)</text>
+
+  <!-- ── snet-internal ── -->
+  <rect x="60" y="390" width="620" height="100" rx="8" fill="#ffffff" stroke="#5c85d6" stroke-width="1.5"/>
+  <text x="76" y="406" font-size="10" font-weight="600" fill="#1a73e8">snet-internal  (10.0.2.0/24)  NSG: allow from hub &amp; spoke</text>
+
+  <!-- FGT1 port2 -->
+  <rect x="100" y="414" width="140" height="56" rx="7" fill="#fff3e0" stroke="#e65100" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="170" y="432" text-anchor="middle" font-size="10" font-weight="700" fill="#e65100">FortiGate 1</text>
+  <text x="170" y="446" text-anchor="middle" font-size="9" fill="#555">port2 NIC</text>
+  <text x="170" y="460" text-anchor="middle" font-size="9" fill="#555">10.0.2.5 (DHCP)</text>
+
+  <!-- FGT2 port2 -->
+  <rect x="280" y="414" width="140" height="56" rx="7" fill="#fce4ec" stroke="#c62828" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="350" y="432" text-anchor="middle" font-size="10" font-weight="700" fill="#c62828">FortiGate 2</text>
+  <text x="350" y="446" text-anchor="middle" font-size="9" fill="#555">port2 NIC</text>
+  <text x="350" y="460" text-anchor="middle" font-size="9" fill="#555">10.0.2.6 (DHCP)</text>
+
+  <!-- Internal LB -->
+  <rect x="460" y="410" width="190" height="64" rx="7" fill="#e8f5e9" stroke="#2e7d32" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="555" y="430" text-anchor="middle" font-size="10" font-weight="700" fill="#2e7d32">⚖  Internal LB</text>
+  <text x="555" y="445" text-anchor="middle" font-size="9" fill="#333">HA Ports mode (All/0)</text>
+  <text x="555" y="459" text-anchor="middle" font-size="9" fill="#333">Frontend: 10.0.2.4 (static)</text>
+  <text x="555" y="471" text-anchor="middle" font-size="8" fill="#2e7d32">Next-hop for spoke UDR</text>
+
+  <!-- line: FGT1 port2 → Internal LB -->
+  <line x1="240" y1="442" x2="460" y2="442" stroke="#2e7d32" stroke-width="1.2" stroke-dasharray="4,3"/>
+  <!-- line: FGT2 port2 → Internal LB -->
+  <line x1="420" y1="448" x2="460" y2="448" stroke="#2e7d32" stroke-width="1.2" stroke-dasharray="4,3"/>
+
+  <!-- ── snet-dns-inbound ── -->
+  <rect x="700" y="390" width="140" height="100" rx="8" fill="#ffffff" stroke="#5c85d6" stroke-width="1.5"/>
+  <text x="770" y="406" text-anchor="middle" font-size="9" font-weight="600" fill="#1a73e8">snet-dns-inbound</text>
+  <text x="770" y="418" text-anchor="middle" font-size="8" fill="#555">10.0.3.0/28</text>
+  <rect x="714" y="422" width="112" height="56" rx="6" fill="#e8eaf6" stroke="#3949ab" stroke-width="1.2" filter="url(#shadow)"/>
+  <text x="770" y="440" text-anchor="middle" font-size="9" font-weight="700" fill="#3949ab">🔍 DNS Resolver</text>
+  <text x="770" y="454" text-anchor="middle" font-size="8" fill="#333">Inbound endpoint</text>
+  <text x="770" y="466" text-anchor="middle" font-size="8" fill="#555">Resolves private</text>
+  <text x="770" y="478" text-anchor="middle" font-size="8" fill="#555">DNS zones</text>
+
+  <!-- ── VNet Peering label ── -->
+  <rect x="60" y="500" width="620" height="24" rx="5" fill="#e3f2fd" stroke="#1a73e8" stroke-width="1"/>
+  <text x="370" y="516" text-anchor="middle" font-size="10" fill="#1a73e8" font-weight="600">⟷  VNet Peering  (Allow forwarded traffic ON)  ⟷</text>
+
+  <!-- Arrow: Internal LB → VNet Peering -->
+  <line x1="555" y1="490" x2="555" y2="524" stroke="#555" stroke-width="1.5"/>
+  <line x1="450" y1="524" x2="450" y2="620" stroke="#555" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- SPOKE VNET BOX                                 -->
+  <!-- ══════════════════════════════════════════════ -->
+  <rect x="40" y="638" width="820" height="358" rx="14" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="40" y="638" width="820" height="28" rx="14" fill="#2e7d32"/>
+  <rect x="40" y="652" width="820" height="14" fill="#2e7d32"/>
+  <text x="64" y="658" font-size="11" font-weight="700" fill="#ffffff">SPOKE VNET   10.1.0.0/16</text>
+
+  <!-- ── snet-container-apps ── -->
+  <rect x="60" y="676" width="820" height="210" rx="8" fill="#ffffff" stroke="#43a047" stroke-width="1.5"/>
+  <text x="76" y="693" font-size="10" font-weight="600" fill="#2e7d32">snet-container-apps  (10.1.0.0/23)  ·  Delegation: Microsoft.App/environments  ·  UDR: 0.0.0.0/0 → 10.0.2.4</text>
+
+  <!-- Container Apps Env box -->
+  <rect x="80" y="700" width="780" height="176" rx="8" fill="#f1f8e9" stroke="#7cb342" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="470" y="718" text-anchor="middle" font-size="10" font-weight="700" fill="#33691e">Container Apps Environment  (internal: true)  ·  staticIp → Private DNS A record</text>
+
+  <!-- Internal LB (CAE) -->
+  <rect x="96" y="724" width="180" height="56" rx="7" fill="#e8f5e9" stroke="#2e7d32" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="186" y="743" text-anchor="middle" font-size="10" font-weight="700" fill="#2e7d32">⚖  CAE Internal LB</text>
+  <text x="186" y="757" text-anchor="middle" font-size="9" fill="#333">staticIp (dynamic)</text>
+  <text x="186" y="770" text-anchor="middle" font-size="8" fill="#555">Auto-provisioned by Azure</text>
+
+  <!-- App A -->
+  <rect x="320" y="724" width="140" height="56" rx="7" fill="#dcedc8" stroke="#558b2f" stroke-width="1.2" filter="url(#shadow)"/>
+  <text x="390" y="746" text-anchor="middle" font-size="10" font-weight="700" fill="#33691e">📦  App A</text>
+  <text x="390" y="760" text-anchor="middle" font-size="9" fill="#555">ingress: internal</text>
+  <text x="390" y="773" text-anchor="middle" font-size="8" fill="#558b2f">port 80/443</text>
+
+  <!-- App B -->
+  <rect x="480" y="724" width="140" height="56" rx="7" fill="#dcedc8" stroke="#558b2f" stroke-width="1.2" filter="url(#shadow)"/>
+  <text x="550" y="746" text-anchor="middle" font-size="10" font-weight="700" fill="#33691e">📦  App B</text>
+  <text x="550" y="760" text-anchor="middle" font-size="9" fill="#555">ingress: internal</text>
+  <text x="550" y="773" text-anchor="middle" font-size="8" fill="#558b2f">port 80/443</text>
+
+  <!-- App C -->
+  <rect x="640" y="724" width="140" height="56" rx="7" fill="#dcedc8" stroke="#558b2f" stroke-width="1.2" filter="url(#shadow)"/>
+  <text x="710" y="746" text-anchor="middle" font-size="10" font-weight="700" fill="#33691e">📦  App C</text>
+  <text x="710" y="760" text-anchor="middle" font-size="9" fill="#555">ingress: internal</text>
+  <text x="710" y="773" text-anchor="middle" font-size="8" fill="#558b2f">port 80/443</text>
+
+  <!-- Lines: CAE LB → Apps -->
+  <line x1="276" y1="752" x2="320" y2="752" stroke="#558b2f" stroke-width="1.2" marker-end="url(#arrowhead-green)"/>
+  <line x1="276" y1="752" x2="276" y2="752"/>
+  <line x1="276" y1="758" x2="480" y2="758" stroke="#558b2f" stroke-width="1.2"/>
+  <line x1="480" y1="758" x2="480" y2="752" stroke="#558b2f" stroke-width="1.2" marker-end="url(#arrowhead-green)"/>
+  <line x1="276" y1="764" x2="640" y2="764" stroke="#558b2f" stroke-width="1.2"/>
+  <line x1="640" y1="764" x2="640" y2="758" stroke="#558b2f" stroke-width="1.2" marker-end="url(#arrowhead-green)"/>
+
+  <!-- Log Analytics -->
+  <rect x="96" y="800" width="760" height="66" rx="6" fill="#e3f2fd" stroke="#1565c0" stroke-width="1.2"/>
+  <text x="476" y="820" text-anchor="middle" font-size="10" font-weight="700" fill="#1565c0">📊  Log Analytics Workspace</text>
+  <text x="476" y="836" text-anchor="middle" font-size="9" fill="#333">Container Apps logs &amp; metrics · PerGB2018 SKU · 30 day retention</text>
+  <text x="476" y="851" text-anchor="middle" font-size="9" fill="#555">law-container-apps-prod</text>
+
+  <!-- ── snet-private-endpoints ── -->
+  <rect x="60" y="898" width="820" height="84" rx="8" fill="#ffffff" stroke="#43a047" stroke-width="1.5"/>
+  <text x="76" y="914" font-size="10" font-weight="600" fill="#2e7d32">snet-private-endpoints  (10.1.2.0/24)  ·  privateEndpointNetworkPolicies: Disabled</text>
+
+  <!-- PE icons -->
+  <rect x="90" y="920" width="110" height="48" rx="6" fill="#fce4ec" stroke="#880e4f" stroke-width="1.2"/>
+  <text x="145" y="940" text-anchor="middle" font-size="9" font-weight="700" fill="#880e4f">🗂  ACR</text>
+  <text x="145" y="956" text-anchor="middle" font-size="8" fill="#555">Private Endpoint</text>
+  <text x="145" y="966" text-anchor="middle" font-size="7.5" fill="#888">Container Registry</text>
+
+  <rect x="220" y="920" width="110" height="48" rx="6" fill="#fff9c4" stroke="#f57f17" stroke-width="1.2"/>
+  <text x="275" y="940" text-anchor="middle" font-size="9" font-weight="700" fill="#f57f17">🔑  Key Vault</text>
+  <text x="275" y="956" text-anchor="middle" font-size="8" fill="#555">Private Endpoint</text>
+  <text x="275" y="966" text-anchor="middle" font-size="7.5" fill="#888">Secrets &amp; Certs</text>
+
+  <rect x="350" y="920" width="110" height="48" rx="6" fill="#e0f7fa" stroke="#00838f" stroke-width="1.2"/>
+  <text x="405" y="940" text-anchor="middle" font-size="9" font-weight="700" fill="#00838f">💾  Storage</text>
+  <text x="405" y="956" text-anchor="middle" font-size="8" fill="#555">Private Endpoint</text>
+  <text x="405" y="966" text-anchor="middle" font-size="7.5" fill="#888">Blobs / Files</text>
+
+  <rect x="480" y="920" width="110" height="48" rx="6" fill="#ede7f6" stroke="#4527a0" stroke-width="1.2"/>
+  <text x="535" y="940" text-anchor="middle" font-size="9" font-weight="700" fill="#4527a0">🗃  Database</text>
+  <text x="535" y="956" text-anchor="middle" font-size="8" fill="#555">Private Endpoint</text>
+  <text x="535" y="966" text-anchor="middle" font-size="7.5" fill="#888">SQL / Cosmos DB</text>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- PRIVATE DNS ZONE (floating, between VNETs)     -->
+  <!-- ══════════════════════════════════════════════ -->
+  <rect x="680" y="898" width="176" height="84" rx="8" fill="#e8eaf6" stroke="#3949ab" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="768" y="918" text-anchor="middle" font-size="9" font-weight="700" fill="#3949ab">🌐 Private DNS Zone</text>
+  <text x="768" y="932" text-anchor="middle" font-size="8" fill="#333">*.azurecontainerapps.io</text>
+  <text x="768" y="946" text-anchor="middle" font-size="8" fill="#333">Wildcard A → staticIp</text>
+  <text x="768" y="960" text-anchor="middle" font-size="8" fill="#555">Linked: hub + spoke</text>
+  <text x="768" y="972" text-anchor="middle" font-size="7.5" fill="#3949ab">Azure DNS Resolver →</text>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- TRAFFIC FLOW LEGEND                            -->
+  <!-- ══════════════════════════════════════════════ -->
+  <rect x="40" y="1004" width="820" height="64" rx="8" fill="#ffffff" stroke="#90a4ae" stroke-width="1.2"/>
+  <text x="56" y="1020" font-size="10" font-weight="700" fill="#333">Traffic Flows</text>
+
+  <!-- Inbound -->
+  <line x1="56" y1="1038" x2="110" y2="1038" stroke="#1a73e8" stroke-width="2" marker-end="url(#arrowhead-blue)"/>
+  <text x="118" y="1042" font-size="9" fill="#333">Inbound:  Internet → Ext LB → FortiGate (DNAT/WAF) → VNet Peering → CAE Internal LB → App</text>
+
+  <!-- Outbound -->
+  <line x1="56" y1="1058" x2="110" y2="1058" stroke="#e8820a" stroke-width="2" stroke-dasharray="6,3" marker-end="url(#arrowhead-orange)"/>
+  <text x="118" y="1062" font-size="9" fill="#333">Outbound:  App → UDR (0.0.0.0/0 → 10.0.2.4) → FortiGate → NAT → Internet</text>
+
+</svg>
